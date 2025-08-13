@@ -48,11 +48,12 @@ import MainTable from './components/table/MainTable';
 
 function App() {
   const [data, setData] = useState([]);
+  
 
   useEffect(() => {
     const sheetId = "1qFikElOVShRErpoYFvGGdsir5a4WZH9E0jWKCYmvudg";
     const sheetName = "shedule";
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+    const url = import.meta.env.VITE_GOOGLE_SHEET_URL;
 
     fetch(url)
       .then(res => res.text())
