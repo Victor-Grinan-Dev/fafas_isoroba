@@ -23,6 +23,8 @@ function App() {
         const jsonStr = text.substring(jsonStart, jsonEnd + 1);
         const json = JSON.parse(jsonStr);
 
+        console.log("Fetched data:", json);
+
         // Get labels from cols
         const labels = json.table.cols.map(col => col.label || "");
 
