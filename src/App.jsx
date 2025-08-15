@@ -1,41 +1,68 @@
-import './App.css';
-import { useEffect, useState } from "react";
+// import './App.css';
+// import { useEffect, useState } from "react";
+// import MainTable from './components/table/MainTable';
+
+// // Tabletop.js-like fetch for React
+// function fetchGoogleSheet(url, callback) {
+//   fetch(url)
+//     .then(res => res.text())
+//     .then(text => {
+//       const jsonStart = text.indexOf('{');
+//       const jsonEnd = text.lastIndexOf('}');
+//       const jsonStr = text.substring(jsonStart, jsonEnd + 1);
+//       const json = JSON.parse(jsonStr);
+
+//       // Tabletop.js returns an object keyed by sheet name
+//       // Here, we mimic that structure for a single sheet
+//       const sheetName = json.table ? json.table.cols[0]?.label || "Sheet1" : "Sheet1";
+//       const labels = json.table.cols.map(col => col.label || "");
+//       const rows = json.table.rows.map(row =>
+//         row.c.map(cell => cell ? (cell.f || cell.v) : "")
+//       );
+//       const data = { [sheetName]: [labels, ...rows] };
+
+//       callback(data);
+//     })
+//     .catch(err => console.error("Error fetching sheet:", err));
+// }
+
+// function App() {
+//   const [data, setData] = useState([]);
+
+//   useEffect(() => {
+//     const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=week34_36";
+//     fetchGoogleSheet(url, (sheetData) => {
+//       // sheetData is an object keyed by sheet name
+//       // You can select the sheet you want, here we just use the first key
+//       const firstSheet = Object.keys(sheetData)[0];
+//       setData(sheetData[firstSheet]);
+//       console.log("Fetched Tabletop-like data:", sheetData);
+//     });
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>IsoRoba Schedule</h1>
+//       <MainTable data={data}/>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSheetData } from "./app/appSlice";
 import MainTable from './components/table/MainTable';
 
 function App() {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.app.data);
 
   useEffect(() => {
-    const sheetId = "1qFikElOVShRErpoYFvGGdsir5a4WZH9E0jWKCYmvudg";
-    const sheetName = "shedule";
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
-    // "test";
-    const sheetId2 = "17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY";
-    const sheetName2="week34_36"
-    const url2 = `https://docs.google.com/spreadsheets/d/${sheetId2}/gviz/tq?tqx=out:json&sheet=${sheetName2}`;
-
-    fetch(url2)
-      .then(res => res.text())
-      .then(text => {
-        const jsonStart = text.indexOf('{');
-        const jsonEnd = text.lastIndexOf('}');
-        const jsonStr = text.substring(jsonStart, jsonEnd + 1);
-        const json = JSON.parse(jsonStr);
-
-        // Get labels from cols
-        const labels = json.table.cols.map(col => col.label || "");
-
-        // Get data rows
-        const rows = json.table.rows.map(row =>
-          row.c.map(cell => cell ? (cell.f || cell.v) : "")
-        );
-
-        // Prepend labels as first row
-        setData([labels, ...rows]);
-      })
-      .catch(err => console.error("Error fetching sheet:", err));
-  }, []);
+    const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=week34_36";
+    dispatch(fetchSheetData(url));
+  }, [dispatch]);
 
   return (
     <div>
