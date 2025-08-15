@@ -15,7 +15,7 @@ function App() {
     const sheetName2="week34_36"
     const url2 = `https://docs.google.com/spreadsheets/d/${sheetId2}/gviz/tq?tqx=out:json&sheet=${sheetName2}`;
 
-    fetch(url)
+    fetch(url2)
       .then(res => res.text())
       .then(text => {
         const jsonStart = text.indexOf('{');
