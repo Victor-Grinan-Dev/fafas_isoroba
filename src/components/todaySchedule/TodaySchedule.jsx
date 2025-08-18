@@ -10,7 +10,11 @@ const TodaySchedule = () => {
   const { todaySchedule } = getFullScheduleInfo(data); 
 
   return (
-    <div>
+    <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
         <h2>Today {todayStr}</h2>
       </div>
@@ -23,7 +27,7 @@ const TodaySchedule = () => {
               <th>To</th>
             </tr>
           </thead>
-          <tbody style={{ fontSize: '2 rem' }}>
+          <tbody >
             {todaySchedule.workers.map(worker => (
               <tr key={worker.workerId}>
                 <td>{worker.name}</td>
