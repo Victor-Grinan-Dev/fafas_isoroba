@@ -35,7 +35,7 @@ const IndividualStaff = () => {
                   
                   return (
                     <div key={date} className="text-sm" style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}>
-                       <span><span>{date}</span><span>:</span></span> <span>{shift.from} - {shift.to}</span>
+                       <span key={`${worker.workerId}-${date}`}><span>{date}</span><span>:</span></span> <span>{shift.from} - {shift.to}</span>
                     </div>
                   );
                 })}
