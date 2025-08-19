@@ -159,6 +159,44 @@ export const getNextDaySchedule = (data, currentDateStr) => {
   return { day: nextRow[0], date: nextRow[1], workers };
 };
 
+export const getScheduleByWorker = (data) => {
+  if (!data || data.length < 2) return {};
+  const header = data[0];
+  const result = {};
+
+  for (let col = 3, workerId = 0; col < header.length; col += 3, workerId++) {
+    const name = header[col];
+    if (name && name.trim() !== "") {
+      result[name.trim()] = {};
+    }
+  }
+
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    if (row[0] && row[1] && row[0].length <= 3) {
+      const dateKey = row[1]; // e.g. Jan-1
+      for (let w = 0; w < Object.keys(result).length; w++) {
+        const fromIdx = 2 + w * 3;
+        const toIdx = fromIdx + 1;
+        const hoursIdx = fromIdx + 2;
+        const from = row[fromIdx];
+        const to = row[toIdx];
+        const hours = row[hoursIdx];
+        const workerName = header[3 + w * 3];
+        if (workerName && workerName.trim() !== "" && (from || to || hours)) {
+          result[workerName.trim()][dateKey] = {
+            from: from || "",
+            to: to || "",
+            hours: hours || ""
+          };
+        }
+      }
+    }
+  }
+
+  return result;
+};
+
 export const getFullScheduleInfo = (data) => {
   const todayStr = getTodayStr();
   return {
@@ -167,6 +205,7 @@ export const getFullScheduleInfo = (data) => {
     schedule: getWorkersSchedule(data),
     staffWithShift: getStaffScheduleByDay(data),
     todaySchedule: getTodaySchedule(data),
+    individualSchedule: getScheduleByWorker(data),
     nextDaySchedule: getNextDaySchedule(data, todayStr),
   };
 };
@@ -190,6 +229,7 @@ export const appSlice = createSlice({
     schedule: [],
     staffWithShift: [],
     todaySchedule: null,
+    workers: {},
     nextDaySchedule: null,
   },
   reducers: {
@@ -220,6 +260,7 @@ export const appSlice = createSlice({
         state.staffWithShift = scheduleInfo.staffWithShift;
         state.todaySchedule = scheduleInfo.todaySchedule;
         state.nextDaySchedule = scheduleInfo.nextDaySchedule;
+        state.workers = scheduleInfo.individualSchedule;
         state.isLoading = false;
       })
       .addCase(fetchSheetData.rejected, (state) => {

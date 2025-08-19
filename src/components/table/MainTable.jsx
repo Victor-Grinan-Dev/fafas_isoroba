@@ -6,7 +6,8 @@ const MainTable = ({data}) => {
   }
 
   return (
-    <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
+    <div style={{ borderCollapse: "collapse", maxWidth: "80vw", overflowX: "scroll" }}>
+      <table border="1" cellPadding="5" style={{ borderCollapse: "collapse"}}>
       <tbody>
         {data.map((row, i) => (
           <tr key={i}>
@@ -17,6 +18,7 @@ const MainTable = ({data}) => {
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 
