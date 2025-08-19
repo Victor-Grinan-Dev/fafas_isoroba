@@ -20,24 +20,27 @@ function App() {
   }
 
   return (
-    <div>
-      <span style={{textAlign: 'center'}}>
-        <p>Schedule</p>
-        <h1>IsoRoba</h1>
+    <div style={{minHeight: '93dvh',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', justifyContent: 'space-between'}}>
+      <span>
+        <span style={{textAlign: 'center'}}>
+          <p>Schedule</p>
+          <h1>IsoRoba</h1>
+        </span>
+        <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
+          <select onChange={(e) => handleOptions(e)} >
+            <option value="day">1 Day</option>
+            <option value="staff">By Staff</option>
+            <option value="full">fulltable</option>
+          </select>
+        </div>
+        
+        <br />
+        {/* <MainTable data={data}/> */}
+        { displayed == "day" &&<TodaySchedule />}
+        { displayed == "staff" &&<IndividualStaff />}
+        { displayed == "full" && <MainTable data={data}/> }
       </span>
-      <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
-        <select onChange={(e) => handleOptions(e)} >
-          <option value="day">1 Day</option>
-          <option value="staff">By Staff</option>
-          <option value="full">fulltable</option>
-        </select>
-      </div>
-      
-      <br />
-      {/* <MainTable data={data}/> */}
-      { displayed == "day" &&<TodaySchedule />}
-      { displayed == "staff" &&<IndividualStaff />}
-      { displayed == "full" && <MainTable data={data}/> }
 
       <div className="footer" style={{textAlign: 'center', marginTop: '20px'}}>
         <p>Made with ❤️ by <a href="https://victor-grinan-dev.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Victor Griñán</a></p>
