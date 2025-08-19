@@ -38,6 +38,10 @@ function App() {
       { displayed == "day" &&<TodaySchedule />}
       { displayed == "staff" &&<IndividualStaff />}
       { displayed == "full" && <MainTable data={data}/> }
+
+      <div className="footer" style={{textAlign: 'center', marginTop: '20px'}}>
+        <p>Made with ❤️ by <a href="https://victor-grinan-dev.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Victor Griñán</a></p>
+      </div>
     </div>
   );
 }
