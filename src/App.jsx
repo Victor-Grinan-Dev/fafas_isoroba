@@ -34,8 +34,8 @@ function App() {
             <option value="full">fulltable</option>
           </select>
         </div>
-        
         <br />
+   
         {/* <MainTable data={data}/> */}
         { displayed == "day" &&<TodaySchedule />}
         { displayed == "staff" &&<IndividualStaff />}
