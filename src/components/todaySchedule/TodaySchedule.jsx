@@ -7,7 +7,7 @@ const TodaySchedule = () => {
   const data = useSelector(state => state.app.data);
   const { todaySchedule } = getFullScheduleInfo(data);
   const tomorrowSchedule = useSelector(state => state.app.nextDaySchedule);
-
+  const staff = useSelector(state => state.app.staff);
   const [displayDay, setDisplayDay] = useState("today");
   const [isSearch, setIsSearch] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
@@ -27,7 +27,6 @@ const TodaySchedule = () => {
   };
 
   const getWorkersByDate = (data, date) => {
-    const header = data[0]; // staff names row
     const dayRow = data.find(row => row[1] === date);
 
     if (!dayRow) return [];
@@ -40,11 +39,8 @@ const TodaySchedule = () => {
       if (from && to) {
         // find the corresponding name in header by scanning backwards
         let nameIndex = i;
-        while (nameIndex >= 0 && (!header[nameIndex] || header[nameIndex].trim() === "")) {
-          nameIndex--;
-        }
-        const name = header[nameIndex] ? header[nameIndex].trim() : `Worker ${i}`;
-        results.push({ worker: name, from: from.trim(), to: to.trim() });
+        const worker = staff[Math.floor(nameIndex / 3)];
+        results.push({  name: worker.name, from: from?.trim(), to: to?.trim(), workerId:`worker${i}`, });
       }
     }
 
@@ -126,13 +122,15 @@ const TodaySchedule = () => {
         </thead>
         <tbody style={{ fontSize: '1.5em' }}>
           {isSearch && selectedDate &&
-            sortByFrom(searchedWorkers).map(worker => (
-              <tr key={worker.worker}>
-                <td>{worker.worker}</td>
-                <td>{worker.from}</td>
-                <td>{worker.to}</td>
-              </tr>
-            ))
+            sortByFrom(searchedWorkers).map((worker, i) => {
+              return (
+                <tr key={i}>
+                  <td>{worker.name}</td>
+                  <td>{worker.from}</td>
+                  <td>{worker.to}</td>
+                </tr>
+              );
+            })
           }
 
           {!isSearch && displayDay === "today" &&
@@ -146,8 +144,8 @@ const TodaySchedule = () => {
           }
 
           {!isSearch && displayDay === "tomorrow" &&
-            sortByFrom(tomorrowSchedule?.workers ?? []).map(worker => (
-              <tr key={worker.workerId}>
+            sortByFrom(tomorrowSchedule?.workers ?? []).map((worker, i) => (
+              <tr key={i}>
                 <td>{worker.name}</td>
                 <td>{worker.from}</td>
                 <td>{worker.to}</td>
