@@ -121,25 +121,34 @@ const TodaySchedule = () => {
           </tr>
         </thead>
         <tbody style={{ fontSize: '1.5em' }}>
-          {isSearch && selectedDate &&
-            sortByFrom(searchedWorkers).map((worker, i) => {
-              return (
-                <tr key={i}>
-                  <td>{worker.name}</td>
-                  <td>{worker.from}</td>
-                  <td>{worker.to}</td>
-                </tr>
-              );
-            })
-          }
+          {isSearch && selectedDate && (
+            searchedWorkers.length > 0 ? (
+              sortByFrom(searchedWorkers).map((worker, i) => {
+                console.log("searched worker:", worker);
+                return (
+                  <tr key={i}>
+                    <td>{worker.name}</td>
+                    <td>{worker.from}</td>
+                    <td>{worker.to}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="3">
+                  <h4>No shifts scheduled yet!</h4>
+                </td>
+              </tr>
+            )
+          )}
 
           {!isSearch && displayDay === "today" &&
-            sortByFrom(todaySchedule?.workers ?? []).map(worker => (
-              <tr key={worker.workerId}>
+            sortByFrom(todaySchedule?.workers ?? []).map((worker, i) => (
+              <tr key={i}>
                 <td>{worker.name}</td>
                 <td>{worker.from}</td>
                 <td>{worker.to}</td>
-              </tr>
+              </tr> 
             ))
           }
 

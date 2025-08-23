@@ -11,7 +11,7 @@ function App() {
   const [displayed, setDisplayed] = useState("day");
 
   useEffect(() => {
-    const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=week34_36";
+    const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=live_schedule";
     dispatch(fetchSheetData(url));
   }, [dispatch]);
 
