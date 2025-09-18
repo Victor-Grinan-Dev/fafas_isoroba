@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchSheetData } from "./app/appSlice";
 import TodaySchedule from "./components/todaySchedule/TodaySchedule";
 import IndividualStaff from "./components/individualStaff/IndividualStaff";
 
 function App() {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.app.data);
   const [displayed, setDisplayed] = useState("day");
 
   const Key = import.meta.env.VITE_GOOGLE_SHEET_key;
@@ -29,16 +28,13 @@ function App() {
         </span>
         <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
           <select onChange={(e) => handleOptions(e)} >
-            <option value="day">1 Day</option>
+            <option value="day">By Date</option>
             <option value="staff">By Staff</option>
-            <option value="full">fulltable</option>
           </select>
         </div>
         <br />
-   
         { displayed == "day" &&<TodaySchedule />}
         { displayed == "staff" &&<IndividualStaff />}
-        { displayed == "full" && <MainTable data={data}/> }
       </span>
 
       <div className="footer" style={{textAlign: 'center', marginTop: '20px'}}>
