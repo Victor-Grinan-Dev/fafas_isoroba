@@ -1,17 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGoogleSheet } from "../services/googleSheet";
 
-
 // --- helpers ---
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export const formatDateStr = (date) => {
-  //this will format a Date object to "Jan-1" format
   return `${MONTHS[date.getMonth()]}-${date.getDate()}`;
 };
 
 export const parseDate = (str) => {
-  //this will parse strings like "Jan-1" to a Date object
   if (!str) return null;
   const [a, b] = String(str).trim().split("-");
   const am = MONTHS.indexOf(a), bm = MONTHS.indexOf(b);

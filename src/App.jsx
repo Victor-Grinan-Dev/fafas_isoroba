@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSheetData } from "./app/appSlice";
-import MainTable from './components/table/MainTable';
 import TodaySchedule from "./components/todaySchedule/TodaySchedule";
 import IndividualStaff from "./components/individualStaff/IndividualStaff";
 
@@ -37,7 +36,6 @@ function App() {
         </div>
         <br />
    
-        {/* <MainTable data={data}/> */}
         { displayed == "day" &&<TodaySchedule />}
         { displayed == "staff" &&<IndividualStaff />}
         { displayed == "full" && <MainTable data={data}/> }
