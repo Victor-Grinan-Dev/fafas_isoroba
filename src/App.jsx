@@ -1,86 +1,51 @@
-// import './App.css';
-// import { useEffect, useState } from "react";
-
-// function App() {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     const savedData = localStorage.getItem("sheetData");
-//     if (savedData) {
-//       setData(JSON.parse(savedData));
-//       return;
-//     }
-
-//     const sheetId = "1qFikElOVShRErpoYFvGGdsir5a4WZH9E0jWKCYmvudg";
-//     const sheetName = "Sheet1";
-//     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
-//     fetch(url)
-//       .then(res => res.text())
-//       .then(text => {
-//         const jsonStart = text.indexOf('{');
-//         const jsonEnd = text.lastIndexOf('}');
-//         const jsonStr = text.substring(jsonStart, jsonEnd + 1);
-//         const json = JSON.parse(jsonStr);
-
-//         const rows = json.table.rows.map(row =>
-//           row.c.map(cell => cell ? (cell.f || cell.v) : "")
-//         );
-
-//         setData(rows);
-//         localStorage.setItem("sheetData", JSON.stringify(rows));
-//       })
-//       .catch(err => console.error("Error fetching sheet:", err));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>Google Sheet Data (Raw)</h1>
-//       <pre>{JSON.stringify(data, null, 2)}</pre>
-//     </div>
-//   );
-// }
-// export default App;
-
-import './App.css';
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSheetData } from "./app/appSlice";
 import MainTable from './components/table/MainTable';
+import TodaySchedule from "./components/todaySchedule/TodaySchedule";
+import IndividualStaff from "./components/individualStaff/IndividualStaff";
 
 function App() {
-  const [data, setData] = useState([]);
-  
 
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.app.data);
+  const [displayed, setDisplayed] = useState("day");
+
+  const Key = import.meta.env.VITE_GOOGLE_SHEET_key;
   useEffect(() => {
-    const sheetId = "1qFikElOVShRErpoYFvGGdsir5a4WZH9E0jWKCYmvudg";
-    const sheetName = "shedule";
-    const url = import.meta.env.VITE_GOOGLE_SHEET_URL;
+    const url = `https://docs.google.com/spreadsheets/d/${Key}/gviz/tq?tqx=out:json&sheet=live_schedule`
+    dispatch(fetchSheetData(url));
+  }, [dispatch]);
 
-    fetch(url)
-      .then(res => res.text())
-      .then(text => {
-        const jsonStart = text.indexOf('{');
-        const jsonEnd = text.lastIndexOf('}');
-        const jsonStr = text.substring(jsonStart, jsonEnd + 1);
-        const json = JSON.parse(jsonStr);
-
-        // Get labels from cols
-        const labels = json.table.cols.map(col => col.label || "");
-
-        // Get data rows
-        const rows = json.table.rows.map(row =>
-          row.c.map(cell => cell ? (cell.f || cell.v) : "")
-        );
-
-        // Prepend labels as first row
-        setData([labels, ...rows]);
-      })
-      .catch(err => console.error("Error fetching sheet:", err));
-  }, []);
+  const handleOptions = (e) => {
+    setDisplayed(e.target.value); 
+  }
 
   return (
-    <div>
-      <h1>IsoRoba Schedule</h1>
-      <MainTable data={data}/>
+    <div style={{minHeight: '93dvh',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', justifyContent: 'space-between'}}>
+      <span>
+        <span style={{textAlign: 'center'}}>
+          <p>Schedule</p>
+          <h1>IsoRoba</h1>
+        </span>
+        <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
+          <select onChange={(e) => handleOptions(e)} >
+            <option value="day">1 Day</option>
+            <option value="staff">By Staff</option>
+            <option value="full">fulltable</option>
+          </select>
+        </div>
+        <br />
+   
+        { displayed == "day" &&<TodaySchedule />}
+        { displayed == "staff" &&<IndividualStaff />}
+        { displayed == "full" && <MainTable data={data}/> }
+      </span>
+
+      <div className="footer" style={{textAlign: 'center', marginTop: '20px'}}>
+        <p>Made with ❤️ by <a href="https://victor-grinan-dev.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Victor Griñán</a></p>
+      </div>
     </div>
   );
 }
