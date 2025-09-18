@@ -10,8 +10,9 @@ function App() {
   const data = useSelector(state => state.app.data);
   const [displayed, setDisplayed] = useState("day");
 
+  const Key = import.meta.env.VITE_GOOGLE_SHEET_key;
   useEffect(() => {
-    const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=live_schedule";
+    const url = `https://docs.google.com/spreadsheets/d/${Key}/gviz/tq?tqx=out:json&sheet=live_schedule`
     dispatch(fetchSheetData(url));
   }, [dispatch]);
 
