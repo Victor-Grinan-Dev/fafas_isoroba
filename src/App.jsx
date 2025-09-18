@@ -6,6 +6,7 @@ import TodaySchedule from "./components/todaySchedule/TodaySchedule";
 import IndividualStaff from "./components/individualStaff/IndividualStaff";
 
 function App() {
+
   const dispatch = useDispatch();
   const data = useSelector(state => state.app.data);
   const [displayed, setDisplayed] = useState("day");
@@ -37,7 +38,6 @@ function App() {
         </div>
         <br />
    
-        {/* <MainTable data={data}/> */}
         { displayed == "day" &&<TodaySchedule />}
         { displayed == "staff" &&<IndividualStaff />}
         { displayed == "full" && <MainTable data={data}/> }
