@@ -31,9 +31,8 @@ function App() {
         </span>
         <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
           <select onChange={(e) => handleOptions(e)} >
-            <option value="day">1 Day</option>
+            <option value="day">By Day</option>
             <option value="staff">By Staff</option>
-            <option value="full">fulltable</option>
           </select>
         </div>
         <br />
