@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchGoogleSheet } from "../components/services/googleSheet";
+import { fetchGoogleSheet } from "../services/googleSheet";
 
 
 // --- helpers ---

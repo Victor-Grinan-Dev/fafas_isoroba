@@ -6,12 +6,14 @@ import TodaySchedule from "./components/todaySchedule/TodaySchedule";
 import IndividualStaff from "./components/individualStaff/IndividualStaff";
 
 function App() {
+
   const dispatch = useDispatch();
   const data = useSelector(state => state.app.data);
   const [displayed, setDisplayed] = useState("day");
 
+  const Key = import.meta.env.VITE_GOOGLE_SHEET_key;
   useEffect(() => {
-    const url = "https://docs.google.com/spreadsheets/d/17uxTTBwLWdgZpKcJRVMtKMDOlR4UmNSE_P3ShfbaiuY/gviz/tq?tqx=out:json&sheet=live_schedule";
+    const url = `https://docs.google.com/spreadsheets/d/${Key}/gviz/tq?tqx=out:json&sheet=live_schedule`
     dispatch(fetchSheetData(url));
   }, [dispatch]);
 
@@ -29,14 +31,12 @@ function App() {
         </span>
         <div  style={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
           <select onChange={(e) => handleOptions(e)} >
-            <option value="day">1 Day</option>
+            <option value="day">By Day</option>
             <option value="staff">By Staff</option>
-            <option value="full">fulltable</option>
           </select>
         </div>
         <br />
    
-        {/* <MainTable data={data}/> */}
         { displayed == "day" &&<TodaySchedule />}
         { displayed == "staff" &&<IndividualStaff />}
         { displayed == "full" && <MainTable data={data}/> }

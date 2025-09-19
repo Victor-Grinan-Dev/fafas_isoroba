@@ -1,5 +1,3 @@
-import React from 'react';
-
 const MainTable = ({data}) => {
   if (!data || data.length === 0) {
     return <div>No data</div>;
