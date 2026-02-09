@@ -76,11 +76,20 @@ const TodaySchedule = () => {
             {data
               .filter((row, i) => i > 0 && row[1]) // skip header
               .filter(row => {
-                const rowDate = parseDate(row[1]);
+                const rowDate = parseDate(row[1]); // convert date string to Date object
                 if (!rowDate) return false;
+
                 const today = new Date();
-                today.setHours(0,0,0,0);
-                return rowDate > today; // only tomorrow onwards
+                today.setHours(0,0,0,0); // normalize today to midnight
+
+                const isFuture = rowDate > today; // normal future dates
+
+                const isDecemberNow = today.getMonth() === 11; // current month is December
+                const isJanuaryDate = rowDate.getMonth() === 0; // row date is in January
+
+                // allow future dates OR January dates when current month is December
+                return isFuture || (isDecemberNow && isJanuaryDate);
+
               })
               .map((row, i) => (
                 <option key={i} value={row[1]}>

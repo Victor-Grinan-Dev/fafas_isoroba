@@ -272,6 +272,7 @@ export const appSlice = createSlice({
       })
       .addCase(fetchSheetData.fulfilled, (state, action) => {
         state.data = action.payload;
+        console.log(state.data)
         const scheduleInfo = getFullScheduleInfo(state.data);
         state.staff = scheduleInfo.staff;
         state.daysAndDates = scheduleInfo.daysAndDates;

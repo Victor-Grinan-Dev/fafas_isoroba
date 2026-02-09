@@ -1,11 +1,12 @@
+import React from 'react';
+
 const MainTable = ({data}) => {
   if (!data || data.length === 0) {
     return <div>No data</div>;
   }
 
   return (
-    <div style={{ borderCollapse: "collapse", maxWidth: "80vw", overflowX: "scroll" }}>
-      <table border="1" cellPadding="5" style={{ borderCollapse: "collapse"}}>
+    <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
       <tbody>
         {data.map((row, i) => (
           <tr key={i}>
@@ -16,7 +17,6 @@ const MainTable = ({data}) => {
         ))}
       </tbody>
     </table>
-    </div>
   );
 };
 
