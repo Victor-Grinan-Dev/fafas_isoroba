@@ -9,7 +9,7 @@ const IndividualStaff = () => {
   const today0 = new Date();
   today0.setHours(0, 0, 0, 0);
 
-  const [selectedWorker, setSelectedWorker] = useState("");
+  const [selectedWorker, setSelectedWorker] = useState('');
 
   return (
     <div>
@@ -27,59 +27,71 @@ const IndividualStaff = () => {
         ))}
       </select>
 
-      <div>
-        {staffWithShift
-          .filter(
-            (worker) =>
-              !selectedWorker ||
-              worker.name.trim().toLowerCase() ===
-                selectedWorker.trim().toLowerCase()
-          )
-          .map((worker) => (
-            <div key={worker.workerId} className="mb-4">
-              <h3
-                className="font-bold text-lg"
-                style={{
-                  backgroundColor: '#e90a0aff',
-                  fontSize: '2.0em',
-                  textAlign: 'center',
-                }}
-              >
-                {worker.name}
-              </h3>
-              <div className="pl-4">
-                {Object.entries(worker.scheduled)
-                  .sort(([da], [db]) => parseDate(da) - parseDate(db))
-                  .map(([date, shift]) => {
-                    const d = parseDate(date);
-                    if (!d || d < today0) return null; // skip past shifts
-                    return (
-                      <div
-                        key={date}
-                        className="text-sm"
-                        style={{
-                          width: '180px',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <span>
-                          <span>{date}</span>
-                          <span>:</span>
-                        </span>
-                        <span>
-                          {shift.from} - {shift.to}
-                        </span>
-                      </div>
-                    );
-                  })}
-              </div>
+      {staffWithShift
+        .filter(
+          (worker) =>
+            !selectedWorker ||
+            worker.name.trim().toLowerCase() ===
+              selectedWorker.trim().toLowerCase()
+        )
+        .map((worker) => (
+          <div key={worker.workerId} className="mb-4">
+            <h3
+              className="font-bold text-lg"
+              style={{
+                backgroundColor: '#e90a0aff',
+                fontSize: '2.0em',
+                textAlign: 'center',
+              }}
+            >
+              {worker.name}
+            </h3>
+            <div className="pl-4">
+              {Object.entries(worker.scheduled)
+                .sort(([da], [db]) => parseDate(da) - parseDate(db))
+                .map(([date, shift]) => {
+                  const d = parseDate(date);
+                  if (!d || d < today0) return null;
+
+                  const weekday = d.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                  });
+
+                  console.log({
+                    date,
+                    weekday,
+                    from: shift.from,
+                    to: shift.to,
+                    parsedDate: d,
+                    rawShift: shift,
+                  });
+
+                  return (
+                    <div
+                      key={date}
+                      className="text-sm"
+                      style={{
+                        width: '220px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span>
+                        <span>{weekday}</span>{' '}
+                        <span>{date}</span>
+                        <span>:</span>
+                      </span>
+                      <span>
+                        {shift.from} - {shift.to}
+                      </span>
+                    </div>
+                  );
+                })}
             </div>
-          ))}
-      </div>
+          </div>
+        ))}
     </div>
   );
 };
 
 export default IndividualStaff;
-
