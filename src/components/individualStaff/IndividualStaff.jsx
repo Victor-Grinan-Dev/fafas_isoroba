@@ -71,7 +71,7 @@ const IndividualStaff = () => {
                       key={date}
                       className="text-sm"
                       style={{
-                        width: '230px',
+                        width: '235px',
                         display: 'flex',
                         justifyContent: 'space-between',
                       }}
