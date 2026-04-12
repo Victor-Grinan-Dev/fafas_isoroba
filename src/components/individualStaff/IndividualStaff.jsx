@@ -76,14 +76,19 @@ const IndividualStaff = () => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <span style={{width:"50%", display:"flex", justifyContent:"space-between"}}>
-                        <span>{weekday}</span>
-                        <span>{'-'}</span>
-                        <span>{date}</span>
-                        <span>:</span>
+                      <span style={{width:"45%", display:"flex", justifyContent:"space-evenly"}}>
+                        <span style={{width:"25%", display:"flex", justifyContent:"flex-start"}}>{weekday}</span>
+                        <span style={{width:"5%", display:"flex", justifyContent:"center"}}>{'-'}</span>
+                        <span style={{width:"50%", display:"flex", justifyContent:"flex-start"}}>{date}</span>
+                        <span style={{width:"5%", display:"flex", justifyContent:"center"}}>:</span>
                       </span>
-                      <span style={{width:"45%", display:"flex", justifyContent:"space-between"}}>
-                        {shift.from} - {shift.to}
+                      <span style={{width:"45%", display:"flex", justifyContent:"space-evenly"}}>
+                        <span style={{width:"40%", display:"flex", justifyContent:"flex-start"}}>{shift.from}</span>
+                        <span style={{width:"5%", display:"flex", justifyContent:"flex-start"}}>{'-'}</span>
+                        <span style={{width:"40%", display:"flex", justifyContent:"flex-start"}}>{shift.to}</span>
+                      </span>
+                      <span>
+                        <span class="material-symbols-outlined">visibility</span>
                       </span>
                     </div>
                   );
